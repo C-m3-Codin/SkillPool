@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "520609932544",
+    "firebase_url": "https://skillpool-a2d3b.firebaseio.com",
+    "project_id": "skillpool-a2d3b",
+    "storage_bucket": "skillpool-a2d3b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520609932544:android:b7968c506b5fc50c113fe5",
+        "android_client_info": {
+          "package_name": "com.example.SkillPool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "520609932544-1ve8di4eaek2t264q48llkd709seemhm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcrpUGFz6MwGuMUerEFE1Tpp42qBsy_as"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "520609932544-1ve8di4eaek2t264q48llkd709seemhm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
