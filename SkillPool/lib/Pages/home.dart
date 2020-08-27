@@ -125,6 +125,7 @@ class SkillPeople extends StatefulWidget {
 }
 
 class _SkillPeopleState extends State<SkillPeople> {
+  List<String> people = ["Loading"];
   Map<String, dynamic> get skil {
     return widget.snapshot.data();
   }
@@ -147,18 +148,27 @@ class _SkillPeopleState extends State<SkillPeople> {
     super.initState();
     skil.forEach((key, value) {
       print("value:" + key + "\t" + value);
+      people.add(value);
     });
     print("\n\n\n");
+    print("People length  + ${people.length}");
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(bottom: 4, top: 4),
-        child: Container(
-            child: ExpansionTile(
-          title: nam,
-          children: [Text("tadaaa"), Text(skil["People"].toString())],
-        )));
+    return ExpansionTile(
+      title: nam,
+      children: [
+        ListView.builder(
+            shrinkWrap: true,
+            itemCount: people.length,
+            itemBuilder: (_, index) {
+              print(
+                  "\n\n\n\n\n\n\n\n\ TAB ${people.length}\n\n\n\n\n\n\n\n\n\n\n\n\n");
+              return Text(people[index]);
+            })
+      ],
+    );
   }
 }
