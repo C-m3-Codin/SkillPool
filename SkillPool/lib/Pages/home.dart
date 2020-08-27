@@ -165,7 +165,7 @@ class _SkillPeopleState extends State<SkillPeople> {
             itemCount: people.length,
             itemBuilder: (_, index) {
               print(
-                  "\n\n\n\n\n\n\n\n\ TAB ${people.length}\n\n\n\n\n\n\n\n\n\n\n\n\n");
+                  "\n\n\n\n\n\n\n\ TAB ${people.length}\n\n\n\n\n\n\n\n\n\n\n\n\n");
               return Text(people[index]);
             })
       ],
