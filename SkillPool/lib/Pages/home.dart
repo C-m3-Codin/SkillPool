@@ -95,7 +95,7 @@ class _SkillListState extends State<SkillList> {
           future: data,
           builder: (_, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting)
-              return Text("Loading");
+              return Text("loading");
             else {
               // return ListView.builder(
               //     itemCount: snapshot.data.length,
@@ -125,7 +125,7 @@ class SkillPeople extends StatefulWidget {
 }
 
 class _SkillPeopleState extends State<SkillPeople> {
-  List<String> people = ["Loading"];
+  List<String> people = [];
   Map<String, dynamic> get skil {
     return widget.snapshot.data();
   }
@@ -148,7 +148,9 @@ class _SkillPeopleState extends State<SkillPeople> {
     super.initState();
     skil.forEach((key, value) {
       print("value:" + key + "\t" + value);
-      people.add(value);
+      if (key != "name") {
+        people.add(value);
+      }
     });
     print("\n\n\n");
     print("People length  + ${people.length}");
@@ -166,7 +168,21 @@ class _SkillPeopleState extends State<SkillPeople> {
             itemBuilder: (_, index) {
               print(
                   "\n\n\n\n\n\n\n\ TAB ${people.length}\n\n\n\n\n\n\n\n\n\n\n\n\n");
-              return Text(people[index]);
+              // if (index == 0 && people.length == 1)
+              //   return Text("Nothing here");
+              // else
+              // return Text(people[index]);
+              return Container(
+                // height: 20,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text(people[index]),
+                    onTap: navToUser(people[index] + skil["name"]),
+                  ),
+                ),
+              );
             })
       ],
     );
