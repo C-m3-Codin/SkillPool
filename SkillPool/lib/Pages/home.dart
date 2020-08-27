@@ -157,6 +157,16 @@ class _SkillPeopleState extends State<SkillPeople> {
     setState(() {});
   }
 
+  navToUser(String DocString) {
+    print("\n\n\n\n\n\n\n\nEntered nav to deets\n\n\n\n\t $DocString \n\n\n");
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PersonDeets(
+                  docStr: DocString,
+                )));
+  }
+
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
@@ -165,26 +175,45 @@ class _SkillPeopleState extends State<SkillPeople> {
         ListView.builder(
             shrinkWrap: true,
             itemCount: people.length,
-            itemBuilder: (_, index) {
+            itemBuilder: (BuildContext context, index) {
               print(
                   "\n\n\n\n\n\n\n\ TAB ${people.length}\n\n\n\n\n\n\n\n\n\n\n\n\n");
               // if (index == 0 && people.length == 1)
               //   return Text("Nothing here");
               // else
+              // return Raised;
+
               // return Text(people[index]);
-              return Container(
-                // height: 20,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListTile(
-                    leading: Icon(Icons.person),
-                    title: Text(people[index]),
-                    onTap: navToUser(people[index] + skil["name"]),
-                  ),
+              return ListTile(
+                leading: Icon(
+                  Icons.person,
                 ),
+                title: Text(people[index]),
+                // onTap: navToUser(people[index] + skil["name"]),
+                onTap: () {
+                  print(
+                      "\n\n\n\n\n\n\nentered\n\n\n\n\pressed\n\ ${people[index]} \n\n\n");
+                  String na = people[index] + skil["name"];
+                  navToUser(na);
+                },
               );
             })
       ],
     );
+  }
+}
+
+class PersonDeets extends StatefulWidget {
+  @override
+  final String docStr;
+  PersonDeets({this.docStr});
+
+  @override
+  _PersonDeetsState createState() => _PersonDeetsState();
+}
+
+class _PersonDeetsState extends State<PersonDeets> {
+  Widget build(BuildContext context) {
+    return Scaffold(body: Center(child: Container(child: Text(widget.docStr))));
   }
 }
