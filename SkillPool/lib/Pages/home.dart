@@ -1,6 +1,10 @@
 // import 'package:firebase/firestore.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart
+// import 'dart:js';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+// import 'package:firebase/firestore.dart';
 import 'package:flutter/material.dart';
 // import 'package:cloud_firestore/'; // import 'package:cloud_firestore/';
 
@@ -35,6 +39,17 @@ class _HomeScState extends State<HomeSc> {
             ];
           },
           body: SkillList()),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        final firestoreInstance = Firestore.instance;
+        firestoreInstance
+            .collection("Ban")
+            .getDocuments()
+            .then((querySnapshot) {
+          querySnapshot.documents.forEach((result) {
+            print("for each here \n\n\n\\n" + result.data.toString());
+          });
+        });
+      }),
     );
   }
 }
@@ -49,36 +64,101 @@ class SkillList extends StatefulWidget {
 }
 
 class _SkillListState extends State<SkillList> {
+  Future getSkills() async {
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore.collection("Skl").getDocuments();
+    print("\n\n\n\nSlill\n\n\n\n");
+    print(qn);
+    print("\n\n\n\nSlill\n\n\n\n");
+
+    firestore.collection("Skl").getDocuments().then((querySnapshot) {
+      querySnapshot.documents.forEach((result) {
+        print(result.data);
+      });
+    });
+
+    return qn.documents;
+  }
+
+  Future data;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    data = getSkills();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection("Skills").snapshots(),
-        builder: (context, snapshot) {
-          return !snapshot.hasData
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : ListView.builder(
-                  itemCount: snapshot.data.documents.length,
-                  itemBuilder: (context, index) {
-                    print("\n\nreceivedvaye\n\n\n\n");
-                    return new ExpansionTile(
-                      title: new Text(
-                        "het",
-                        style: new TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic),
-                      ),
-                      children: <Widget>[
-                        new Column(
-                          children: [Text("hhhh"), Text("haaaa")],
-                        ),
-                      ],
-                    );
-                  });
-        });
+    return Container(
+      child: FutureBuilder(
+          future: data,
+          builder: (_, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting)
+              return Text("Loading");
+            else {
+              // return ListView.builder(
+              //     itemCount: snapshot.data.length,
+              //     itemBuilder: (_, index) {
+              //       final item = snapshot.data[index];
+              //       // print("\n\n\n\n" + snapshot.data);
+              //       // print("\n\n\n\n\n\ns" + snapshot.data[index].data["name"]);
+              //       return
+
+              print(snapshot.data.toString());
+              return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) =>
+                      SkillPeople(snapshot.data[index]));
+            }
+          }),
+    );
   }
 }
 
-class _buildExpandableContent {}
+class SkillPeople extends StatefulWidget {
+  final DocumentSnapshot snapshot;
+  SkillPeople(this.snapshot);
+
+  @override
+  _SkillPeopleState createState() => _SkillPeopleState();
+}
+
+class _SkillPeopleState extends State<SkillPeople> {
+  Map<String, dynamic> get skil {
+    return widget.snapshot.data();
+  }
+
+  Widget get nam {
+    return Text("${skil["name"]}");
+  }
+
+  Widget get pplList {
+    return ListView.builder(
+        itemCount: skil["People"].length,
+        itemBuilder: (context, index) {
+          return Text(skil["People"].data["name"]);
+        });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    skil.forEach((key, value) {
+      print("value:" + key + "\t" + value);
+    });
+    print("\n\n\n");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.only(bottom: 4, top: 4),
+        child: Container(
+            child: ExpansionTile(
+          title: nam,
+          children: [Text("tadaaa"), Text(skil["People"].toString())],
+        )));
+  }
+}
