@@ -1,4 +1,5 @@
 // import 'dart:html';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,19 @@ class PersonDeets extends StatefulWidget {
 
 class _PersonDeetsState extends State<PersonDeets> {
   var data;
+  Future<void> _launched;
+  String _phone = '';
+
+  Future<void> _makePhoneCall(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   Widget build(BuildContext context) {
+    // const String toLaunch = 'https://www.cylog.org/headers/';
     return Scaffold(
         appBar: AppBar(
           title: Text("Profile"),
@@ -54,6 +66,7 @@ class _PersonDeetsState extends State<PersonDeets> {
                     // );
 
                     return SingleChildScrollView(
+                      physics: ScrollPhysics(),
                       child: Column(children: <Widget>[
                         Container(
                             decoration: BoxDecoration(),
@@ -80,15 +93,36 @@ class _PersonDeetsState extends State<PersonDeets> {
                                     ])))),
                         Card(
                           child: ListTile(
-                              title: Text((snapshot.data.documents[i]
-                                  .get("name")
-                                  .toString()))),
+                              title: Text(
+                            (snapshot.data.documents[i].get("name").toString()),
+                            textAlign: TextAlign.center,
+                          )),
                         ),
-                        // Card(
-                        //   child: ListTile(
-                        //       title: Text((snapshot.data.documents[i]
-                        //           .get("CP")
-                        //           .toString()))),
+                        ListTile(
+                          leading: Text("busy"),
+                          title: Text(snapshot.data.documents[i].get("busy")
+                              ? "yes"
+                              : "no"),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            RaisedButton(
+                              onPressed: () => setState(() {
+                                _phone = snapshot.data.documents[i]
+                                    .get("number")
+                                    .toString();
+
+                                _launched = _makePhoneCall('tel:$_phone');
+                              }),
+                              child: const Text('Make phone call'),
+                            ),
+                            Text("Contact whatsapp")
+                          ],
+                        ),
+                        // const Padding(
+                        //   padding: EdgeInsets.all(16.0),
+                        //   child: Text(toLaunch),
                         // ),
                         // Card(
                         //   child: ListTile(
@@ -96,12 +130,28 @@ class _PersonDeetsState extends State<PersonDeets> {
                         //           .get("CP")
                         //           .toString()))),
                         // ),
-                        // Card(
-                        //   child: ListTile(
-                        //       title: Text((snapshot.data.documents[i]
-                        //           .get("CP")
-                        //           .toString()))),
-                        // ),
+                        // ListView.builder(itemBuilder: (_.))
+                        ListView.builder(
+                            // physics: NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount:
+                                snapshot.data.documents[i].get("works").length,
+                            itemBuilder: (context, index) {
+                              print((snapshot.data.documents[i]
+                                  .get("works")[index]));
+                              return ListTile(
+                                  leading: Icon(
+                                    Icons.done,
+                                    color: Colors.green,
+                                  ),
+                                  title: Text(snapshot.data.documents[i]
+                                      .get("works")[index]));
+                              // rpint("asd");
+
+                              // SkillPeople(snapshot.data[index]));
+                            })
                       ]),
                     );
                   }
