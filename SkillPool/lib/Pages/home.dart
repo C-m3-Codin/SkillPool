@@ -2,6 +2,8 @@
 // import 'package:cloud_firestore/cloud_firestore.dart
 // import 'dart:js';
 
+import 'package:SkillPool/Pages/person.dart';
+import 'package:SkillPool/database/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // import 'package:firebase/firestore.dart';
@@ -97,14 +99,6 @@ class _SkillListState extends State<SkillList> {
             if (snapshot.connectionState == ConnectionState.waiting)
               return Text("loading");
             else {
-              // return ListView.builder(
-              //     itemCount: snapshot.data.length,
-              //     itemBuilder: (_, index) {
-              //       final item = snapshot.data[index];
-              //       // print("\n\n\n\n" + snapshot.data);
-              //       // print("\n\n\n\n\n\ns" + snapshot.data[index].data["name"]);
-              //       return
-
               print(snapshot.data.toString());
               return ListView.builder(
                   itemCount: snapshot.data.length,
@@ -178,12 +172,7 @@ class _SkillPeopleState extends State<SkillPeople> {
             itemBuilder: (BuildContext context, index) {
               print(
                   "\n\n\n\n\n\n\n\ TAB ${people.length}\n\n\n\n\n\n\n\n\n\n\n\n\n");
-              // if (index == 0 && people.length == 1)
-              //   return Text("Nothing here");
-              // else
-              // return Raised;
 
-              // return Text(people[index]);
               return ListTile(
                 leading: Icon(
                   Icons.person,
@@ -200,20 +189,5 @@ class _SkillPeopleState extends State<SkillPeople> {
             })
       ],
     );
-  }
-}
-
-class PersonDeets extends StatefulWidget {
-  @override
-  final String docStr;
-  PersonDeets({this.docStr});
-
-  @override
-  _PersonDeetsState createState() => _PersonDeetsState();
-}
-
-class _PersonDeetsState extends State<PersonDeets> {
-  Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Container(child: Text(widget.docStr))));
   }
 }
