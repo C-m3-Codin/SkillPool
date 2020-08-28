@@ -178,12 +178,13 @@ class _SkillPeopleState extends State<SkillPeople> {
                 leading: Icon(
                   Icons.person,
                 ),
-                title: Text(people[index]),
+                title:
+                    Text(people[index].substring(0, people[index].length - 7)),
                 // onTap: navToUser(people[index] + skil["name"]),
                 onTap: () {
                   print(
                       "\n\n\n\n\n\n\nentered\n\n\n\n\pressed\n\ ${people[index]} \n\n\n");
-                  String na = people[index] + skil["name"];
+                  String na = people[index];
                   navToUser(na);
                 },
               );
