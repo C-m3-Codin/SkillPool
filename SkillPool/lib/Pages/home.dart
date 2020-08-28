@@ -34,7 +34,7 @@ class _HomeScState extends State<HomeSc> {
                           fontSize: 16.0,
                         )),
                     background: Image.network(
-                      "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      "https://scontent.fccu10-1.fna.fbcdn.net/v/t31.0-8/s960x960/20989033_112314066115856_1256227463991323205_o.jpg?_nc_cat=109&_nc_sid=e3f864&_nc_ohc=KIS9mL7Ff3YAX865oDL&_nc_ht=scontent.fccu10-1.fna&tp=7&oh=200d2249b2b640c6b802d0ce21515794&oe=5F6E187B",
                       fit: BoxFit.cover,
                     )),
               ),
@@ -97,7 +97,8 @@ class _SkillListState extends State<SkillList> {
           future: data,
           builder: (_, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting)
-              return Text("loading");
+              // return Text("loading");
+              return CircularProgressIndicator();
             else {
               print(snapshot.data.toString());
               return ListView.builder(
